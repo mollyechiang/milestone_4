@@ -1,0 +1,60 @@
+---
+title: "Milestone 4"
+author: "Molly Chiang"
+date: "10/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+library(readr)
+library(knitr)
+library(janitor)
+library(gridExtra)
+library(tidyverse)
+
+```
+
+
+```{r data_load}
+
+ny_data <- read_csv("AB_NYC_2019.csv")
+london_listings <- read_csv("listings.csv")
+london_reviews <- read_csv("reviews.csv")
+
+```
+
+Here are some intial ggplots of my data:
+```{r three_graphs}
+neighborhood_grapher <- function(neighborhood) {
+
+  graph_data <- ny_data %>% 
+  select(neighbourhood, neighbourhood_group, price) %>%
+  group_by(neighbourhood) %>%
+  mutate(ave_price = ave(price)) %>%
+  group_by(neighbourhood, neighbourhood_group, ave_price) %>%
+  count() %>%
+  arrange(desc(ave_price)) %>%
+  filter(neighbourhood_group == neighborhood) %>%
+  filter(n>5) %>% 
+    head(20)
+
+ggplot(graph_data, aes(x= neighbourhood, y = ave_price, fill = neighbourhood_group)) +
+  geom_col() +
+  coord_flip() +
+  labs(y = "Average Price Per Night", x = " ", title = paste(neighborhood, "Airbnb Prices", sep = " ")) +
+  guides(fill = FALSE)
+}
+
+neighborhood_grapher("Manhattan")
+neighborhood_grapher("Brooklyn")
+neighborhood_grapher("Queens")
+neighborhood_grapher("Bronx")
+neighborhood_grapher("Staten Island")
+
+#grid.arrange(p1, p2, p3, p4, p5, ncol = 1, nrow = 5)
+```
+
+
+
