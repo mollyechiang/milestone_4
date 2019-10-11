@@ -19,6 +19,8 @@ library(tidyverse)
 
 ```{r data_load}
 
+#Here I loaded my data
+
 ny_data <- read_csv("AB_NYC_2019.csv")
 london_listings <- read_csv("listings.csv")
 london_reviews <- read_csv("reviews.csv")
@@ -53,7 +55,6 @@ neighborhood_grapher("Queens")
 neighborhood_grapher("Bronx")
 neighborhood_grapher("Staten Island")
 
-#grid.arrange(p1, p2, p3, p4, p5, ncol = 1, nrow = 5)
 ```
 
 
